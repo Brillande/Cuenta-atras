@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cuenta atras</title>
+  </head>
+  <body>
+    <div id="contador"></div>
+    <input id="segundos">
+    <button id="IniciarCuenta">Inicar</button>
+    <button id="pausarCuenta">Pausar</button>
+    <button id="DetenerCuenta">Detener</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script>
+    $(function(){
+      var segundos=0
+      var x= 0
+      var pausado=false
+      if(localStorage.getItem('segundos')){
+
+        $('#contador').html('<h2 id="cuentaAtras">'+ localStorage.getItem('segundos') +'</h2>')
+        $('#segundos').val(localStorage.getItem('segundos'))
+        }
+      $('#IniciarCuenta').click(function(){
+        $('#IniciarCuenta').hide()
+        $('#pausarCuenta').show()
+        if (!pausado) {
+          segundos = parseInt($('#segundos').val())
+          localStorage.setItem('segundos',segundos)
+        }
+
+        pausado=false
+        x = setInterval(function(){
+          segundos--
+          $('#contador').html('<h2 id="cuentaAtras">'+ segundos +'</h2>')
+          if(segundos===0){
+            clearInterval(x)
+            return alert ('Cuenta regresiva finalizada')
+          }
+          console.log(segundos)
+        }, 1000);
+      })
+      $('#pausarCuenta').click(function(){
+        pausado=true
+        $('#pausarCuenta').hide()
+        segundosPausados=segundos
+        clearInterval(x)
+        $('#IniciarCuenta').show()
+      })
+
+      $('#DetenerCuenta').click(function(){
+        $('#IniciarCuenta').show()
+        clearInterval(x)
+        localStorage.getItem(segundos)
+        $('#contador').html('<h2 id="cuentaAtras">'+ localStorage.getItem('segundos') +'</h2>')
+      })
+      })
+    </script>
+  </body>
+</html>
